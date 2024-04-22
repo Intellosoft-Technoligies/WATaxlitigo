@@ -1,0 +1,474 @@
+// drop down new 
+Positioned(
+  top: 80,
+  left: 50,
+  child: GestureDetector(
+    onTap: () {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            height: 150,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ListTile(
+                  title: Text('Option 1'),
+                  onTap: () {
+                    // Handle option 1
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Text('Option 2'),
+                  onTap: () {
+                    // Handle option 2
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Text('Option 3'),
+                  onTap: () {
+                    // Handle option 3
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    },
+    child: Container(
+      width: 400,
+      height: 50,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0),
+            child: Text(
+              'USER TYPE',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w900,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          Icon(Icons.arrow_drop_down),
+        ],
+      ),
+    ),
+  ),
+),
+//drop down
+Positioned(
+  top: 80,
+  left: 50,
+  child: Tooltip(
+    message: '',
+    child: MouseRegion(
+      onEnter: (_) {
+        setState(() {
+          isHovered = true;
+        });
+      },
+      onExit: (_) {
+        setState(() {
+          isHovered = false;
+        });
+      },
+      child: PopupMenuButton<String>(
+        tooltip: '', // Remove the tooltip for the PopupMenuButton itself
+        onSelected: (String value) {
+          setState(() {
+            selectedUserType = value; // Update selectedUserType when an option is selected
+          });
+        },
+        itemBuilder: (BuildContext context) {
+          return <PopupMenuEntry<String>>[
+            PopupMenuItem<String>(
+              value: 'Super admin',
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Super admin'),
+                  Divider(color: Colors.black.withOpacity(0.3)),
+                ],
+              ),
+            ),
+            PopupMenuItem<String>(
+              value: 'Organization admin',
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Organization admin'),
+                  Divider(color: Colors.black.withOpacity(0.3)),
+                ],
+              ),
+            ),
+            PopupMenuItem<String>(
+              value: 'Organization users',
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Organization users'),
+                  Divider(color: Colors.black.withOpacity(0.3)),
+                ],
+              ),
+            ),
+            PopupMenuItem<String>(
+              value: 'Client',
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Client'),
+                  Divider(color: Colors.black.withOpacity(0.3)),
+                ],
+              ),
+            ),
+          ];
+        },
+        child: Container(
+          width: 800,
+          height: 50,
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: isHovered ? Color(0xFF5539E6) : Colors.transparent),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Text(
+                  selectedUserType, // Display selectedUserType
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              Icon(Icons.arrow_drop_down),
+            ],
+          ),
+        ),
+        offset: Offset(0, 50), // Adjust the offset to place the list below the container
+      ),
+    ),
+  ),
+),
+//forgot password error
+// ignore_for_file: unused_field
+
+import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:testapp/setnewpassword.dart';
+
+class ForgotPasswordScreen extends StatefulWidget {
+  @override
+  _ForgotPasswordScreenState createState() => _ForgotPasswordScreenState();
+}
+
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>(); // GlobalKey for the form
+  late String _email;
+  int _currentImageIndex = 0; // Declare _currentImageIndex here
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
+        child: Center(
+          child: Form(
+            key: _formKey,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CarouselSlider(
+                        options: CarouselOptions(
+                          height: 500.0,
+                          aspectRatio: 16 / 9,
+                          viewportFraction: 0.8,
+                          initialPage: _currentImageIndex,
+                          enableInfiniteScroll: true,
+                          reverse: false,
+                          autoPlay: true,
+                          autoPlayInterval: Duration(seconds: 2),
+                          autoPlayAnimationDuration: Duration(milliseconds: 800),
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          enlargeCenterPage: true,
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              _currentImageIndex = index;
+                            });
+                          },
+                          scrollDirection: Axis.horizontal,
+                        ),
+                        items: [
+                          'assets/group.png',
+                          ['assets/vector.png', 'assets/illustration3.png'],
+                          ['assets/vector.png', 'assets/illustration3.png'],
+                        ].map((item) {
+                          if (item is String) {
+                            return Container(
+                              child: Center(
+                                child: Image.asset(
+                                  item,
+                                  fit: BoxFit.cover,
+                                  width: 600,
+                                  height: 300.0,
+                                ),
+                              ),
+                            );
+                          } else if (item is List<String> && item.length == 2) {
+                            return Container(
+                              width: 600,
+                              height: 300.0,
+                              child: Stack(
+                                children: [
+                                  Image.asset(
+                                    item[0],
+                                    fit: BoxFit.cover,
+                                    width: 600,
+                                    height: 300.0,
+                                  ),
+                                  Positioned.fill(
+                                    child: Image.asset(
+                                      item[1],
+                                      fit: BoxFit.contain,
+                                      alignment: Alignment.center,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          } else {
+                            return Container();
+                          }
+                        }).toList(),
+                      ),
+                      SizedBox(height: 10.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          for (int i = 0; i < 3; i++)
+                            buildIndicator(i),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 20, left: 40),
+                        child: Container(
+                          child: Image.asset(
+                            'assets/Logo.png',
+                            width: 150,
+                            height: 150,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 2),
+                      Container(
+                        padding: EdgeInsets.only(top: 115, bottom: 110, right: 110, left: 150),
+                        child: Column(
+                          children: [
+                            SizedBox(height: 10.0),
+                            Text(
+                              'forgot password ?',
+                              style: TextStyle(
+                                color: Color(0xFF5539E6),
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 5.0),
+                            Opacity(
+                              opacity: 0.9,
+                              child: Text(
+                                'no worries we will send you setup instructions',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 20.0),
+                          Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    Container(
+      padding: EdgeInsets.only(left: 10, bottom: 10, right: 10),
+      child: Text('Enter your Email'),
+    ),
+    Container(
+      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(5.0),
+      ),
+      child: TextFormField(
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: 'enter email',
+        ),
+        validator: (value) {
+          if (value!.isEmpty || !isValidEmail(value)) {
+            return 'Please enter a valid email';
+          }
+          return null;
+        },
+        onSaved: (value) {
+          _email = value!;
+        },
+      ),
+    ),
+    SizedBox(height: 10),
+    GestureDetector(
+      onTap: () {
+        if (_formKey.currentState!.validate()) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SetNewPassword()),
+          );
+        }
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 10.0),
+        decoration: BoxDecoration(
+          color: Color(0xFF5539E6),
+          borderRadius: BorderRadius.circular(5.0),
+          border: Border.all(color: Colors.grey),
+        ),
+        child: Center(
+          child: Text(
+            'Update Password',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    ),
+    SizedBox(height: 20.0),
+    GestureDetector(
+      onTap: () {
+        Navigator.pop(context);
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(5.0),
+          border: Border.all(color: Colors.grey),
+        ),
+        child: Center(
+          child: Text(
+            'Back to Login',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    ),
+  ],
+),
+
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildIndicator(int index) {
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 200),
+      margin: EdgeInsets.symmetric(horizontal: 4.0),
+      height: 8.0,
+      width: _currentImageIndex == index ? 24.0 : 8.0,
+      decoration: BoxDecoration(
+        color: _currentImageIndex == index ? Color(0xFF5539E6) : Colors.grey,
+        borderRadius: BorderRadius.circular(4.0),
+      ),
+    );
+  }
+
+  bool isValidEmail(String value) {
+    final RegExp emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    return emailRegex.hasMatch(value);
+  }
+}
+
+// error container
+Container(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Visibility(
+                                    visible: _showError,
+                                    child: Container(
+                                      width: 700,
+                                      height: 65,
+                                      padding: EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFFFFFDD0), // Cream color (Hex: #FFFDD0)
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(right: 8),
+                                                child: Image.asset(
+                                                  'assets/vector2.png', // Path to your image asset
+                                                  width: 24, // Set the width of the image
+                                                  height: 24, // Set the height of the image
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  'We can\'t seem to find the right email address for you. Please re-enter the email address that you have registered.',
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 10.9,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                
